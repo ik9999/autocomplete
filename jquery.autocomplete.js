@@ -850,20 +850,18 @@
 				
 				active = $dropdown.find('div.active').eq(0);
 							
-				if( !active.length )
-					active = $dropdown.children().first();
+				if( active.length > 0 ) {
+          $input.trigger('selected.xdsoft',[getItem(active,dataset)]);
+        } else {
+          $input.trigger('selected.xdsoft',[currentValue]);
+        }
 					
-				$input.trigger('selected.xdsoft',[getItem(active,dataset)]);
-				
 				if (options.afterSelected)
 					options.afterSelected();
 			})
 			.on('timepick.xdsoft', function( event,_value ){
 				active = $dropdown.find('div.active');
 							
-				if( !active.length )
-					active = $dropdown.children().first();
-				
 				if( active.length ){
 					if( !isset(_value) ){
 						$input.val(getValue.call(options,active,dataset));
