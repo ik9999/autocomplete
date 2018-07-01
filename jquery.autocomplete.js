@@ -590,7 +590,7 @@
 					}
 				}
 					
-				return '<div '+(value==query?'class="active"':'')+' data-value="'+encodeURIComponent(value)+'">'
+				return '<div data-value="'+encodeURIComponent(value)+'">'
 							+title+
 						'</div>';
 			}
