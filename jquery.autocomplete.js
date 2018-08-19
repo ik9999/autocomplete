@@ -436,18 +436,18 @@
 	function getValue( $div,dataset ){
 		var item = getItem($div,dataset);
 		
-		if(item && item.length > 0 && item[0] !== '<'){
-			return __safe.call(this,
-				'getValue',$div.data('source'),
-				[item,$div.data('source')]
-			);
-		}else{
+		//if(item && item.length > 0 && item[0] !== '<'){
+			//return __safe.call(this,
+				//'getValue',$div.data('source'),
+				//[item,$div.data('source')]
+			//);
+		//}else{
 			if( isset($div.data('value')) ){
 				return decodeURIComponent($div.data('value'));
 			}else{
 				return $div.html();
 			}
-		}
+		//}
 	};
 
 	defaultSetting = {
@@ -570,9 +570,11 @@
 				if (this.highlight) {
 				  if (title.length > 0 && title[0] === '<') {
             var titleEl = $(title);
-            className = titleEl.attr('class');
-            title = titleEl.text();
-            value = title;
+            if (titleEl.attr('class')) {
+              className = titleEl.attr('class');
+            }
+            value = titleEl.html();
+            title = value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 				  }
 					if (!this.accents) {
 						title = title.replace(new RegExp('('+escapeRegExp(query)+')','i'),'<b>$1</b>');
@@ -864,7 +866,7 @@
 				active = $dropdown.find('div.active').eq(0);
 							
 				if( active.length > 0 ) {
-          $input.trigger('selected.xdsoft',[getItem(active,dataset)]);
+          $input.trigger('selected.xdsoft',[getValue(active,dataset)]);
         } else {
           $input.trigger('selected.xdsoft',[currentValue]);
         }
