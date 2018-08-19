@@ -436,7 +436,7 @@
 	function getValue( $div,dataset ){
 		var item = getItem($div,dataset);
 		
-		if( item ){
+		if(item && item.length > 0 && item[0] !== '<'){
 			return __safe.call(this,
 				'getValue',$div.data('source'),
 				[item,$div.data('source')]
@@ -566,7 +566,14 @@
 					c, h, i,
 					spos = 0;
 					
+			  var className = '';
 				if (this.highlight) {
+				  if (title.length > 0 && title[0] === '<') {
+            var titleEl = $(title);
+            className = titleEl.attr('class');
+            title = titleEl.text();
+            value = title;
+				  }
 					if (!this.accents) {
 						title = title.replace(new RegExp('('+escapeRegExp(query)+')','i'),'<b>$1</b>');
 					}else{
@@ -589,8 +596,14 @@
 						title = highlighted;
 					}
 				}
+				if (value==query) {
+				  className += ' active';
+				}
+				if (className.length > 0) {
+				  className = 'class="' + className + '"'
+				}
 					
-				return '<div data-value="'+encodeURIComponent(value)+'">'
+				return '<div '+className+' data-value="'+encodeURIComponent(value)+'">'
 							+title+
 						'</div>';
 			}
